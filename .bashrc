@@ -31,8 +31,12 @@ export TEMPO=$ASTROSOFT/tempo
 export TEMPO2=$ASTROSOFT/tempo2/T2runtime
 
 # PGPLOT
-export PGPLOT_DIR=$ASTROSOFT/pgplot_build
-export PGPLOT_DEV=/xwindow
+export PGPLOT_DIR=/usr/lib/pgplot5
+export PGPLOT_FONT=/usr/lib/pgplot5/grfont.dat
+export PGPLOT_INCLUDES=/usr/include
+export PGPLOT_BACKGROUND=white
+export PGPLOT_FOREGROUND=black
+export PGPLOT_DEV=/xs
 
 # PRESTO
 export PRESTO=$ASTROSOFT/presto

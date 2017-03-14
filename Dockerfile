@@ -73,7 +73,8 @@ RUN apt-get install -qq ftp \
                         libcfitsio-dev \
                         libcfitsio-doc \
                         libcfitsio2 \
-                        libcfitsio3-dev
+                        libcfitsio3-dev \
+                        pgplot5
 
 
 RUN apt-get clean
@@ -88,10 +89,8 @@ RUN cd /home/pulsar && pwd && id && . /home/pulsar/.bashrc && mkdir pulsar_softw
 
 RUN cd /home/pulsar/pulsar_software && \
     wget -q http://www.atnf.csiro.au/people/pulsar/psrcat/downloads/psrcat_pkg.tar.gz && \
-    wget -q ftp://ftp.astro.caltech.edu/pub/pgplot/pgplot5.2.tar.gz && \
     mkdir psrcat_tar pgplot && \
     tar zxf psrcat_pkg.tar.gz -C /home/pulsar/pulsar_software/psrcat_tar --strip-components=1 && \
-    tar zxf pgplot5.2.tar.gz -C /home/pulsar/pulsar_software/pgplot --strip-components=1 && \
     rm *.tar.gz
 
 RUN cd /home/pulsar/pulsar_software && \
@@ -108,15 +107,15 @@ RUN cd /home/pulsar/pulsar_software && mkdir -p bin include lib
 
 RUN cd /home/pulsar/pulsar_software/psrcat_tar && /bin/bash -c "source makeit" && cp psrcat $ASTROSOFT/bin/
 
-RUN cd /home/pulsar/pulsar_software/ && mkdir pgplot_build
-
-COPY pgplot_drivers.list /home/pulsar/pulsar_software/pgplot_build/drivers.list
-
-COPY pgplot_makefile /home/pulsar/pulsar_software/pgplot_build/makefile
-
-COPY pgplot_grexec.f $ASTROSOFT/pgplot_build/grexec.f
-
-RUN cd $ASTROSOFT/pgplot_build && make > build.log && make clean > clean.log && make cpg > cpg.log && \
-    ld -shared -o libcpgplot.so --whole-archive libcpgplot.a
-
-ENV PGPLOT_DIR $ASTROSOFT/pgplot_build
+#RUN cd /home/pulsar/pulsar_software/ && mkdir pgplot_build
+#
+#COPY pgplot_drivers.list /home/pulsar/pulsar_software/pgplot_build/drivers.list
+#
+#COPY pgplot_makefile /home/pulsar/pulsar_software/pgplot_build/makefile
+#
+#COPY pgplot_grexec.f $ASTROSOFT/pgplot_build/grexec.f
+#
+#RUN cd $ASTROSOFT/pgplot_build && make > build.log && make clean > clean.log && make cpg > cpg.log && \
+#    ld -shared -o libcpgplot.so --whole-archive libcpgplot.a
+#
+#ENV PGPLOT_DIR $ASTROSOFT/pgplot_build
