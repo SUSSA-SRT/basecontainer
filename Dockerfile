@@ -10,7 +10,11 @@ RUN echo 'deb http://us.archive.ubuntu.com/ubuntu trusty main multiverse' >> /et
     apt-get -y update && \
     apt-get install -y apt-utils apt-transport-https software-properties-common python-software-properties && \
     apt-get -y update --fix-missing && \
-    apt-get -y upgrade
+    apt-get -y update && apt-get install -y pgplot5 && \
+    mv /etc/apt/sources.list /etc/apt/sources.list.bak && \
+    cat /etc/apt/sources.list.bak | grep -v multiverse > /etc/apt/sources.list && \
+    apt-get -y update && apt-get -y update
+
 
 RUN apt-get install -qq ftp \
                         wget \
