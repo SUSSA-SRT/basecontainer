@@ -60,7 +60,21 @@ RUN apt-get install -qq ftp \
                         libmpich-dev \ 
                         libhdf5-mpich-dev \
                         sudo \
-                        imagemagick
+                        imagemagick\
+                        libfftw3-3 \
+                        libfftw3-bin \
+                        libfftw3-dbg \
+                        libfftw3-dev \
+                        libfftw3-double3 \
+                        libfftw3-long3 \
+                        libfftw3-quad3 \
+                        libfftw3-single3 \
+                        libcfitsio-bin \
+                        libcfitsio-dev \
+                        libcfitsio-doc \
+                        libcfitsio2 \
+                        libcfitsio3-dev
+
 
 RUN apt-get clean
 
@@ -73,13 +87,9 @@ COPY .bashrc /home/pulsar/.bashrc
 RUN cd /home/pulsar && pwd && id && . /home/pulsar/.bashrc && mkdir pulsar_software && cd pulsar_software
 
 RUN cd /home/pulsar/pulsar_software && \
-    wget -q http://www.fftw.org/fftw-3.3.6-pl1.tar.gz && \
-    wget -q http://heasarc.gsfc.nasa.gov/FTP/software/fitsio/c/cfitsio_latest.tar.gz && \
     wget -q http://www.atnf.csiro.au/people/pulsar/psrcat/downloads/psrcat_pkg.tar.gz && \
     wget -q ftp://ftp.astro.caltech.edu/pub/pgplot/pgplot5.2.tar.gz && \
-    mkdir fftw-3 cfitsio psrcat_tar pgplot && \
-    tar zxf fftw-3.3.6-pl1.tar.gz -C /home/pulsar/pulsar_software/fftw-3 --strip-components=1 && \
-    tar zxf cfitsio_latest.tar.gz -C /home/pulsar/pulsar_software/cfitsio --strip-components=1 && \
+    mkdir psrcat_tar pgplot && \
     tar zxf psrcat_pkg.tar.gz -C /home/pulsar/pulsar_software/psrcat_tar --strip-components=1 && \
     tar zxf pgplot5.2.tar.gz -C /home/pulsar/pulsar_software/pgplot --strip-components=1 && \
     rm *.tar.gz
@@ -93,12 +103,6 @@ RUN cd /home/pulsar/pulsar_software && \
     git clone https://github.com/SixByNine/sigproc.git
 
 ENV ASTROSOFT /home/pulsar/pulsar_software
-
-RUN cd /home/pulsar/pulsar_software/fftw-3 && \
-    ./configure --prefix=$ASTROSOFT --enable-float --enable-threads --enable-shared CFLAGS=-fPIC FFLAGS=-fPIC > configure.log && \
-    make > build.log && make check > check.log && make install > install.log && make clean  > clean.log && \
-    ./configure --prefix=$ASTROSOFT CFLAGS=-fPIC FFLAGS=-fPIC > configure2.log && \
-    make > build2.log && make check > check2.log && make install > install2.log && make clean > clean2.log
 
 RUN cd /home/pulsar/pulsar_software/cfitsio && \
     ./configure --prefix=$ASTROSOFT CFLAGS=-fPIC FFLAGS=-fPIC > configure.log && \
