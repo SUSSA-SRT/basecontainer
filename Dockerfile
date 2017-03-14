@@ -104,12 +104,6 @@ RUN cd /home/pulsar/pulsar_software && \
 
 ENV ASTROSOFT /home/pulsar/pulsar_software
 
-RUN cd /home/pulsar/pulsar_software/cfitsio && \
-    ./configure --prefix=$ASTROSOFT CFLAGS=-fPIC FFLAGS=-fPIC > configure.log && \
-    make shared > shared.log && \
-    make install > install.log && \
-    make clean > clean.log
-
 RUN cd /home/pulsar/pulsar_software/psrcat_tar && /bin/bash -c "source makeit" && cp psrcat $ASTROSOFT/bin/
 
 RUN cd /home/pulsar/pulsar_software/ && mkdir pgplot_build
