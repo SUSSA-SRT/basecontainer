@@ -104,6 +104,8 @@ RUN cd /home/pulsar/pulsar_software && \
 
 ENV ASTROSOFT /home/pulsar/pulsar_software
 
+RUN mkdir -p bin include lib
+
 RUN cd /home/pulsar/pulsar_software/psrcat_tar && /bin/bash -c "source makeit" && cp psrcat $ASTROSOFT/bin/
 
 RUN cd /home/pulsar/pulsar_software/ && mkdir pgplot_build
