@@ -4,7 +4,13 @@ MAINTAINER Matteo Bachetti <matteo@matteobachetti.it>
 
 ENV LANG=C.UTF-8 LC_ALL=C.UTF-8
 
-RUN apt-get update -y && apt-get update -y
+RUN echo 'deb http://us.archive.ubuntu.com/ubuntu trusty main multiverse' >> /etc/apt/sources.list && \
+    mkdir /var/run/sshd && \
+    apt-get -y check && \
+    apt-get -y update && \
+    apt-get install -y apt-utils apt-transport-https software-properties-common python-software-properties && \
+    apt-get -y update --fix-missing && \
+    apt-get -y upgrade
 
 RUN apt-get install -qq ftp \
                         wget \
