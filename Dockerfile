@@ -62,6 +62,8 @@ RUN apt-get install -qq ftp \
                         sudo \
                         imagemagick
 
+RUN apt-get clean
+
 RUN useradd -m pulsar && echo "pulsar:pulsar" | chpasswd && adduser pulsar sudo
 
 USER pulsar
